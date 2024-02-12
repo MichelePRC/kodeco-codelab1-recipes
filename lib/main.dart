@@ -11,18 +11,17 @@ class RecipeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 2
-    final ThemeData theme = ThemeData(
-      colorScheme: ThemeData().colorScheme.copyWith(
-            primary: Colors.grey,
-            secondary: Colors.black,
-          ),
-      useMaterial3: false,
-    );
     // 3
     return MaterialApp(
       title: 'Recipe Calculator',
       debugShowCheckedModeBanner: false,
-      theme: theme,
+      theme: ThemeData(
+        colorScheme: ThemeData().colorScheme.copyWith(
+              primary: Colors.grey,
+              secondary: Colors.black,
+            ),
+        useMaterial3: false,
+      ),
       home: MyHomePage(title: 'Recipe Calculator'),
     );
   }
@@ -38,6 +37,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Widget buildRecipeCard(Recipe recipe) {
+    return Card(
+        child: Column(
+      children: <Widget>[
+        Image(image: AssetImage(recipe.imageUrl)),
+        Text(
+          recipe.label,
+        )
+      ],
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     // 1
@@ -50,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
         child: ListView.builder(
           itemBuilder: (context, int index) {
-            return Text(Recipe.samples[index].label);
+            return buildRecipeCard(Recipe.samples[index]);
           },
           itemCount: Recipe.samples.length,
         ),
