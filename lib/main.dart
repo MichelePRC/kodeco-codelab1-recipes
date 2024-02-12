@@ -48,7 +48,12 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       // 3
       body: SafeArea(
-        child: Container(),
+        child: ListView.builder(
+          itemBuilder: (context, int index) {
+            return Text(Recipe.samples[index].label);
+          },
+          itemCount: Recipe.samples.length,
+        ),
       ),
     );
   }
