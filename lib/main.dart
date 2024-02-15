@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipes/recipe_detail.dart';
 
 import 'recipe.dart';
 
@@ -37,18 +38,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Widget buildRecipeCard(Recipe recipe) {
-    return Card(
-        child: Column(
-      children: <Widget>[
-        Image(image: AssetImage(recipe.imageUrl)),
-        Text(
-          recipe.label,
-        )
-      ],
-    ));
-  }
-
   @override
   Widget build(BuildContext context) {
     // 1
@@ -61,11 +50,43 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
         child: ListView.builder(
           itemBuilder: (context, int index) {
-            return buildRecipeCard(Recipe.samples[index]);
+            return GestureDetector(
+              child: buildRecipeCard(Recipe.samples[index]),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return RecipeDetail(recipe: Recipe.samples[index]);
+                  }),
+                );
+              },
+            );
           },
           itemCount: Recipe.samples.length,
         ),
       ),
     );
+  }
+
+  Widget buildRecipeCard(Recipe recipe) {
+    return Card(
+        elevation: 2.0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+              Image(image: AssetImage(recipe.imageUrl)),
+              SizedBox(height: 14),
+              Text(
+                recipe.label,
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    fontFamily: 'Palatino'),
+              )
+            ],
+          ),
+        ));
   }
 }
