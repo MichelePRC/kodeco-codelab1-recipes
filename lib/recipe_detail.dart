@@ -10,6 +10,8 @@ class RecipeDetail extends StatefulWidget {
 }
 
 class _RecipeDetailState extends State<RecipeDetail> {
+  int _sliderVal = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,10 +31,36 @@ class _RecipeDetailState extends State<RecipeDetail> {
             SizedBox(
               height: 4,
             ),
-            Text(widget.recipe.label,
-                style: TextStyle(
-                  fontSize: 18,
-                ))
+            Text(
+              widget.recipe.label,
+              style: TextStyle(
+                fontSize: 18,
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: widget.recipe.ingredients.length,
+                itemBuilder: (context, index) {
+                  final ingredient = widget.recipe.ingredients[index];
+                  return Text(
+                      '${ingredient.quantity * _sliderVal} ${ingredient.measure} ${ingredient.name}');
+                },
+              ),
+            ),
+            Slider(
+              min: 1,
+              max: 10,
+              divisions: 9,
+              value: _sliderVal.toDouble(),
+              label: '${_sliderVal * widget.recipe.servings} servings',
+              onChanged: (newValue) {
+                setState(() {
+                  _sliderVal = newValue.round();
+                });
+              },
+              activeColor: Colors.green,
+              inactiveColor: Colors.black,
+            )
           ],
         ),
       ),
